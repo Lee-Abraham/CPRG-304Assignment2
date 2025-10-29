@@ -1,5 +1,5 @@
 package appDomain;
 
-public class QuequeADT {
+public interface QuequeADT {
 
 }
