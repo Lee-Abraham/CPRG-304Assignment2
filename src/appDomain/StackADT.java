@@ -41,10 +41,10 @@ public interface StackADT<E> {
 	 * 
 	 * @return <E> element
 	 */
-	public void pop() throws StackException;
+	public E pop() throws StackException;
 	
 	/**
-	 * Check 
+	 * Check the first element in the stack
 	 * 
 	 * Pre-condition: Stack Object initialize
 	 * 
@@ -55,7 +55,6 @@ public interface StackADT<E> {
 	 * @return <E> element
 	 * 
 	 */
-	public void peek() throws StackException;
-
+	public E peek() throws StackException;
 	
 }
