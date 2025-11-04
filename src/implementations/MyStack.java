@@ -35,10 +35,9 @@ public class MyStack<E> implements StackADT<E>  {
 		if (element == null) {
 			throw new NullPointerException("Cannot add a null element");
 		}
-		//If Stack has reach max capacity and wants to add new element
-		else if (size == elements.length) {
-			resize();
-		}
+//		else if (size == elements.length) {
+//			resize();
+//		}
 		//adds new element inside the stack
 		elements[size++] = element;
 
@@ -222,16 +221,16 @@ public class MyStack<E> implements StackADT<E>  {
 		return size >= elements.length;
 	}
 	
-	//Change the initial size of stack when reaching the limit
-	@SuppressWarnings("unchecked")
-	public void resize() {
-		//Creates a new stack with a bigger capacity
-		E[] newElements = (E[]) new Object[elements.length * 2];
-		//Copy the elements inside the stack into the new bigger stack
-		System.arraycopy(elements, 0, newElements, 0, initial);	
-		//returns the increase stack size with its old elements.
-		elements = newElements;
-	}
+//	//Change the initial size of stack when reaching the limit
+//	@SuppressWarnings("unchecked")
+//	public void resize() {
+//		//Creates a new stack with a bigger capacity
+//		E[] newElements = (E[]) new Object[elements.length * 2];
+//		//Copy the elements inside the stack into the new bigger stack
+//		System.arraycopy(elements, 0, newElements, 0, initial);	
+//		//returns the increase stack size with its old elements.
+//		elements = newElements;
+//	}
 	
 	@Override
 	//Creates object iterator
