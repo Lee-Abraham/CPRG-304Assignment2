@@ -2,6 +2,7 @@ package implementations;
 
 import utilities.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Arrays;
 import java.util.EmptyStackException;
 import appDomain.StackADT;
 import exceptions.StackException;
@@ -71,6 +72,156 @@ public class MyStack<E> implements StackADT<E>  {
 		}
 	}
 	
+	@Override
+	public boolean equals( StackADT<E> that) {
+		//Check if stack is not empty
+		if (that == null) {
+			return false;
+		}
+		//Check if the stack have the same length
+		if (this.size() != that.size()) {
+			return false;
+		}
+		
+		//Uses Iterator to check each element in stack
+		Iterator<E> thisIter = this.iterator();
+		Iterator<E> thatIter = that.iterator();
+		
+		//Iterates over all elements while stack has a next element.
+		while (thisIter.hasNext() && thatIter.hasNext()) {
+			//Get next elements of stack
+			E thisElem = thisIter.next();
+			E thatElem = thatIter.next();
+			
+			//Return null if stack is different
+			if (thisElem == null && thatElem != null) {
+				return false;
+			}
+			//Return null if elements are not equal.
+			if (!thisElem.equals(thatElem)) {
+				return false;
+			}
+		}
+		
+		//Return true if stack is the same
+		return true;
+	}
+	
+	//Clears the stack
+	@Override
+	public void clear() {
+		//Makes each element inside the stack into the null
+		for (int i = 0; i < size; i++) {
+			elements[i] = null;
+		}
+		size = 0;
+	}
+	
+	//Checks if the stack is empty
+	@Override
+	public boolean isEmpty() {
+		//Check if size is empty.
+		return size == 0;
+	}
+	
+	//Checks the size of the stack
+	@Override
+	public int size() {
+		//Returns the size of stack
+		return size;
+	}
+	
+	
+	//Searches for location of the element in a stack
+	@Override
+	public int search(E target) {
+		
+		if (target == null) {
+			return -1;
+		}
+		 Iterator<E> stackIterator = this.iterator();
+		 int index = 1;
+		 
+		 while (stackIterator.hasNext()) {
+			 E elemStack = stackIterator.next();
+			 
+			 if (elemStack == null && target == null) {
+				 return index;
+			 }
+			 if (elemStack.equals(target)) {
+				 return index;
+			 }
+			 
+			 index++;
+		 }
+		
+		//No element inside the stack.
+		return -1;
+	}
+	
+	//Converts stack into array
+	@SuppressWarnings("unchecked")
+	@Override
+	public E[] toArray(E[] copy) {
+		//Check if array is null
+		if (copy == null) {
+			throw new NullPointerException("Array is empty");
+		}
+		//Increase the size of array.
+		if (copy.length < size) {
+			//Thank you for being able to use Arrays.copyOF T T
+			copy = (E[]) Arrays.copyOf(elements, size, copy.getClass());
+		}
+		//Iterates over the stack and makes it into an array.
+		for (int i = size - 1, j = 0; i >= 0; i--, j++) {
+			//Place the stack object into the right array position.
+			copy[j] =  elements[i];
+		}
+		//Returns the array.
+		return copy;
+	}
+	
+	//Converts stack into array
+	@Override
+	public Object[] toArray() {
+		//Creates a new array
+	    Object[] result = new Object[size];
+	    //Iterates and put the stack elements into the array.
+	    for (int i = 0; i < size; i++) {
+	        result[i] = elements[size - 1 - i]; // LIFO order
+	    }
+	    //returns the new array.
+	    return result;
+
+	}
+	
+	//Check if elements inside stack
+	@Override
+	public boolean contains(E element)  {
+		//Check if the element given is present
+		if (element == null) {
+			throw new NullPointerException("Canot check for null");
+		}
+		//If its not null than do this
+		else  {
+			//Iterates all element in the stack
+			for (int i = size - 1; i >= 0; i--) {
+				if (elements[i].equals(element)) {
+					//Returns true if an element is inside the stack
+					return true;
+				}
+			}
+			//Return false if element is not in stack
+			return false;
+		}
+	}
+	
+	//Check if the stack overflows.
+	public boolean stackOverflow() {
+		//Returns false
+		return size >= elements.length;
+	}
+	
 	//Change the initial size of stack when reaching the limit
 	@SuppressWarnings("unchecked")
 	public void resize() {
@@ -82,98 +233,7 @@ public class MyStack<E> implements StackADT<E>  {
 		elements = newElements;
 	}
 	
-	//Clears the stack
-	public void clear() {
-		//Makes each element inside the stack into the null
-		for (int i = 0; i < size; i++) {
-			elements[i] = null;
-		}
-		size = 0;
-	}
-	
-	//Checks if the stack is empty
-	public boolean isEmpty() {
-		//Check if size is empty.
-		return size == 0;
-	}
-	
-	//Checks the size of the stack
-	public int size() {
-		//Returns the size of stack
-		return size;
-	}
-	
-	
-	//Searches for location of the element in a stack
-	public int search(E target) {
-		//Iterates over the stack
-		for (int i = size - 1; i >=  0;  i--) {
-			//check each elements in the stack and if its equals
-			if (elements[i].equals(target)) {
-				//return where the element is.
-				return size - 1 - i;
-			}
-		}
-		
-		//No element inside the stack.
-		return -1;
-	}
-	
-	//Converts stack into array
-	@SuppressWarnings("unchecked")
-	public E[] toArray(E[] targetArray) {
-		//Check if array is null
-		if (targetArray == null) {
-			throw new NullPointerException("Array is empty");
-		}
-		//Increase the size of array.
-		else if (targetArray.length < size) {
-			E[] newArray =  (E[]) new Object[size];
-			targetArray = newArray;
-		}
-		//Iterates over the stack and makes it into an array.
-		for (int i = 0; i < size; i++) {
-			//Place the stack object into the right array position.
-			targetArray[i] =  elements[i];
-		}
-		//Returns the array.
-		return targetArray;
-	}
-	
-	//Converts stack into array
-	@SuppressWarnings("unchecked")
-	public E[] toArray() {
-		//Creates a new array
-	    E[] result = (E[]) new Object[size];
-	    //Iterates and put the stack elements into the array.
-	    for (int i = 0; i < size; i++) {
-	        result[i] = elements[size - 1 - i]; // LIFO order
-	    }
-	    //returns the new array.
-	    return result;
-
-	}
-	
-	//Check if elements inside stack
-	public boolean contains(E element)  {
-		if (element == null) {
-			throw new NullPointerException("Canot check for null");
-		}
-		else  {
-			for (int i = size - 1; i >= 0; i--) {
-				if (elements[i].equals(element)) {
-					return true;
-				}
-			}
-			
-			return false;
-		}
-	}
-	
-	public boolean stackOverflow() {
-		return false;
-	}
-	
+	@Override
 	//Creates object iterator
 	public Iterator<E> iterator() {
 		return new StackIterator();
@@ -192,8 +252,8 @@ public class MyStack<E> implements StackADT<E>  {
 		//Returns the next elements
 		@Override
 		public E  next() {
-			if (hasNext()) {
-				throw new StackException("");
+			if (!hasNext()) {
+				throw new NoSuchElementException("Has no next element");
 			}
 			else {
 				return elements[current--];
