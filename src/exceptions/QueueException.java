@@ -5,15 +5,15 @@ package exceptions;
  * @version 1.8
  * 
  */
-public class QuequeException extends Exception {
+public class QueueException extends Exception {
 
 	//Construction of QueQueException
-	public QuequeException () {
+	public QueueException () {
 		super();
 	}
 
 	//Construction of QueueException with custom message.
-	public QuequeException(String Message) {
+	public QueueException(String Message) {
 		super(Message);
 	}
 

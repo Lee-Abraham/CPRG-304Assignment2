@@ -1,6 +1,6 @@
 package appDomain;
 
-import exceptions.QuequeException;
+import exceptions.QueueException;
 import utilities.Iterator;
 
 /**
@@ -16,7 +16,7 @@ import utilities.Iterator;
  *
  * @param <E> The type of elements this queue holds.
  */
-public interface QuequeADT<E> {
+public interface QueueADT<E> {
 
     /**
      * Adds an element to the rear (tail) of the queue.
@@ -29,7 +29,7 @@ public interface QuequeADT<E> {
      * 
      * @throws QueueException if the element is null.
      */
-    public void enqueue(E element) throws QuequeException;
+    public void enqueue(E element) throws QueueException;
 
     /**
      * Removes an element from the front (head) of the queue.
@@ -42,7 +42,7 @@ public interface QuequeADT<E> {
      * 
      * @return The element removed from the front of the queue.
      */
-    public E dequeue() throws QuequeException;
+    public E dequeue() throws QueueException;
 
     /**
      * Returns (without removing) the element at the front of the queue.
@@ -55,7 +55,7 @@ public interface QuequeADT<E> {
      * 
      * @return The element at the front of the queue.
      */
-    public E peek() throws QuequeException;
+    public E peek() throws QueueException;
 
     /**
      * Compares two queues for equality.
@@ -71,7 +71,7 @@ public interface QuequeADT<E> {
      * 
      * @return true if queues are equal, false otherwise.
      */
-    public boolean equals(QuequeADT<E> that) throws QuequeException;
+    public boolean equals(QueueADT<E> that) throws QueueException;
 
     /**
      * Returns an iterator that traverses the queue from front to rear.
@@ -84,7 +84,7 @@ public interface QuequeADT<E> {
      * 
      * @return Iterator<E> for the queue.
      */
-    public Iterator<E> iterator() throws QuequeException;
+    public Iterator<E> iterator() throws QueueException;
 
     /**
      * Returns an array containing all elements in this queue.
@@ -98,7 +98,7 @@ public interface QuequeADT<E> {
      * 
      * @return Object[] array of queue elements.
      */
-    public Object[] toArray() throws QuequeException;
+    public Object[] toArray() throws QueueException;
 
     /**
      * Returns an array containing all elements in this queue.
@@ -114,7 +114,7 @@ public interface QuequeADT<E> {
      * 
      * @return E[] containing elements in the queue.
      */
-    public E[] toArray(E[] copy) throws QuequeException;
+    public E[] toArray(E[] copy) throws QueueException;
 
     /**
      * Checks if the specified element exists in the queue.
@@ -129,7 +129,7 @@ public interface QuequeADT<E> {
      * 
      * @return true if element is found, false otherwise.
      */
-    public boolean contains(E obj) throws QuequeException;
+    public boolean contains(E obj) throws QueueException;
 
     /**
      * Returns the number of elements currently in the queue.
@@ -142,7 +142,7 @@ public interface QuequeADT<E> {
      * 
      * @return The size of the queue as an int.
      */
-    public int size() throws QuequeException;
+    public int size() throws QueueException;
 
     /**
      * Checks whether the queue is empty.
@@ -155,7 +155,7 @@ public interface QuequeADT<E> {
      * 
      * @return true if empty, false otherwise.
      */
-    public boolean isEmpty() throws QuequeException;
+    public boolean isEmpty() throws QueueException;
 
     /**
      * Checks whether the queue is full (optional for fixed-size implementations).
@@ -177,7 +177,7 @@ public interface QuequeADT<E> {
      * 
      * @throws QueueException if the queue is uninitialized.
      */
-    public void clear() throws QuequeException;
+    public void clear() throws QueueException;
 
     /**
      * Removes all elements from the queue (alias for clear()).
@@ -188,5 +188,5 @@ public interface QuequeADT<E> {
      * 
      * @throws QueueException if the queue is uninitialized.
      */
-    public void dequeueAll() throws QuequeException;
+    public void dequeueAll() throws QueueException;
 }
