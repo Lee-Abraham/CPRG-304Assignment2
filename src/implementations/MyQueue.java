@@ -1,7 +1,7 @@
 package implementations;
 
-import appDomain.QueueADT;
-import exceptions.QueueException;
+import utilities.QueueADT;
+import exceptions.EmptyQueueException;
 import utilities.Iterator;
 
 public class MyQueue<E> implements QueueADT<E> {
@@ -13,31 +13,31 @@ public class MyQueue<E> implements QueueADT<E> {
     }
 
     @Override
-    public void enqueue(E element) throws QueueException {
+    public void enqueue(E element) throws NullPointerException {
         if (element == null) {
-            throw new QueueException("Cannot enqueue null element");
+            throw new NullPointerException("Cannot enqueue null element");
         }
         list.add(element);
     }
 
     @Override
-    public E dequeue() throws QueueException {
+    public E dequeue() throws EmptyQueueException {
         if (isEmpty()) {
-            throw new QueueException("Queue is empty");
+            throw new EmptyQueueException("Queue is empty");
         }
-        return list.remove(0); 
+        return list.remove(0);
     }
 
     @Override
-    public E peek() throws QueueException {
+    public E peek() throws EmptyQueueException {
         if (isEmpty()) {
-            throw new QueueException("Queue is empty");
+            throw new EmptyQueueException("Queue is empty");
         }
-        return list.get(0); 
+        return list.get(0);
     }
 
     @Override
-    public boolean equals(QueueADT<E> that) throws QueueException {
+    public boolean equals(QueueADT<E> that) {
         if (that == null || this.size() != that.size()) {
             return false;
         }
@@ -57,35 +57,53 @@ public class MyQueue<E> implements QueueADT<E> {
     }
 
     @Override
-    public Iterator<E> iterator() throws QueueException {
+    public Iterator<E> iterator() {
         return list.iterator();
     }
 
     @Override
-    public Object[] toArray() throws QueueException {
+    public Object[] toArray() {
         return list.toArray();
     }
 
     @Override
-    public E[] toArray(E[] copy) throws QueueException {
+    public E[] toArray(E[] copy) throws NullPointerException {
+        if (copy == null) {
+            throw new NullPointerException("Array cannot be null");
+        }
         return list.toArray(copy);
     }
 
     @Override
-    public boolean contains(E obj) throws QueueException {
+    public boolean contains(E obj) throws NullPointerException {
         if (obj == null) {
-            throw new QueueException("Cannot search for null element");
+            throw new NullPointerException("Cannot search for null element");
         }
         return list.contains(obj);
     }
 
     @Override
-    public int size() throws QueueException {
+    public int search(E element) {
+        if (element == null) return -1;
+
+        int index = 1;
+        Iterator<E> it = list.iterator();
+        while (it.hasNext()) {
+            if (element.equals(it.next())) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
+    @Override
+    public int size() {
         return list.size();
     }
 
     @Override
-    public boolean isEmpty() throws QueueException {
+    public boolean isEmpty() {
         return list.isEmpty();
     }
 
@@ -94,13 +112,12 @@ public class MyQueue<E> implements QueueADT<E> {
         return false;
     }
 
-    @Override
-    public void clear() throws QueueException {
+    public void clear() {
         list.clear();
     }
 
     @Override
-    public void dequeueAll() throws QueueException {
+    public void dequeueAll() {
         clear();
     }
 }
