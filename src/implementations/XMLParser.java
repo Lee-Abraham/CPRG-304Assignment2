@@ -1,16 +1,15 @@
 package implementations;
 
 import java.io.BufferedReader;
+
 import java.io.FileReader;
 import java.io.IOException;
 import exceptions.EmptyQueueException;
 
 /**
- * XML Parser using Kitty's Algorithm to validate XML structure
- * 
- * @author Your Group Name
- * @version 1.0
- * @date November 2025
+ * @date 11/26/25
+ * @author Ronray Apil, Benjamin Noel
+ * @version 1.2
  */
 public class XMLParser {
 
@@ -45,7 +44,7 @@ public class XMLParser {
     }
 
     /**
-     * Parse an XML file following Kitty's Algorithm
+     * Parse an XML file
      */
     public void parse(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -53,7 +52,8 @@ public class XMLParser {
             int lineNum = 1;
 
             while ((line = br.readLine()) != null) {
-                processLine(line.trim(), lineNum);
+                //processLine(line.trim(), lineNum);
+                processLine(line, lineNum);
                 lineNum++;
             }
 
@@ -71,13 +71,14 @@ public class XMLParser {
      * Process a single line of XML
      */
     private void processLine(String line, int lineNum) {
-        // Ignore processing instructions
-        if (line.startsWith("<?xml")) {
-            return;
-        }
+
+        // Ignore XML declaration
+        if (line.trim().startsWith("<?xml")) return;
 
         int pos = 0;
+
         while (pos < line.length()) {
+
             int start = line.indexOf("<", pos);
             if (start == -1) break;
 
@@ -87,27 +88,31 @@ public class XMLParser {
                 return;
             }
 
+            // Detect self-closing BEFORE trimming
+            String rawTag = line.substring(start, end + 1).trim();
+            boolean isSelfClosing = rawTag.endsWith("/>");
+
+            // Extract inside content
             String tagContent = line.substring(start + 1, end).trim();
-            
-            // Remove attributes (everything after first space)
+
+            // Remove attributes (keep only tag name)
             int spaceIndex = tagContent.indexOf(" ");
             if (spaceIndex != -1) {
                 tagContent = tagContent.substring(0, spaceIndex);
             }
 
-            // Process tag according to Kitty's Algorithm
-            if (tagContent.endsWith("/")) {
-                // Self-closing tag: Ignore
-                // e.g., <tag/>
-            } 
+
+            if (isSelfClosing) {
+                // Self-closing tag: IGNORE
+            }
             else if (tagContent.startsWith("/")) {
                 // End tag
-                String tagName = tagContent.substring(1).trim();
-                XMLTag endTag = new XMLTag(tagName, lineNum, true);
+                String name = tagContent.substring(1).trim();
+                XMLTag endTag = new XMLTag(name, lineNum, true);
                 processEndTag(endTag);
-            } 
+            }
             else {
-                // Start tag: Push on stack
+                // Start tag → push on stack
                 XMLTag startTag = new XMLTag(tagContent, lineNum, false);
                 tagStack.push(startTag);
             }
@@ -116,8 +121,9 @@ public class XMLParser {
         }
     }
 
+
     /**
-     * Process end tag following Kitty's Algorithm
+     * Process end tag 
      */
     private void processEndTag(XMLTag endTag) {
         try {
@@ -182,7 +188,7 @@ public class XMLParser {
     }
 
     /**
-     * Print all errors following Kitty's Algorithm
+     * Print all errors 
      */
     public void printErrors() {
         try {
@@ -195,7 +201,7 @@ public class XMLParser {
             // Report errors
             System.out.println("XML document is not constructed correctly.");
 
-            // Process queues according to Kitty's Algorithm
+            // Process queues
             while (!errorQueue.isEmpty() || !extrasQueue.isEmpty()) {
                 
                 // If either queue is empty (but not both), report each element

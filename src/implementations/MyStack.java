@@ -116,8 +116,10 @@ public class MyStack<E> implements StackADT<E> {
         
         int size = list.size();
         if (copy.length < size) {
-            copy = (E[]) java.lang.reflect.Array.newInstance(
+        	@SuppressWarnings("unchecked")
+            E[] newArray = (E[]) java.lang.reflect.Array.newInstance(
                 copy.getClass().getComponentType(), size);
+        	copy = newArray;
         }
         
         // Fill array in LIFO order (top to bottom)

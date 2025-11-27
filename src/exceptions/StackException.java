@@ -1,11 +1,13 @@
 package exceptions;
 /**
- * date: 10/29/2025
- * @author Lee Abraham
- * @version 1.8
+ * date: 11/25/2025
+ * @author Lee Abraham, Benjamin Noel
+ * @version 2.0
  * 
  */
 public class StackException extends RuntimeException{
+	
+	private static final long serialVersionUID = 1L;
 	
 	//Construction of StackException with message
 	public StackException() {

@@ -67,7 +67,6 @@ public class MyQueue<E> implements QueueADT<E> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public E[] toArray(E[] copy) throws NullPointerException {
         if (copy == null) {
             throw new NullPointerException("Array cannot be null");
